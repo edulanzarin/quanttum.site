@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quanttum</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="container">
+        <div class="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-items">
+                    <a href="#home" class="active"><i class="fas fa-home"></i></a>
+                    <a href="#tasks"><i class="fas fa-tasks"></i></a>
+                    <a href="#contacts"><i class="fas fa-address-book"></i></a>
+                </div>
+                <a href="#profile"><i class="fas fa-user"></i></a>
+            </div>
+        </div>
+        <div class="main-content">
+            <!-- Conteúdo principal vai aqui -->
+            <div id="home" class="home">
+                <div class="today-tasks">
+                    <h3>Tarefas para hoje</h3>
+                    <div class="filters">
+                        <a href="#" class="filter active" data-filter="all">Todos</a>
+                        <a href="#" class="filter" data-filter="completed">Concluídos</a>
+                        <a href="#" class="filter" data-filter="pending">Pendentes</a>
+                        <!-- Adicione mais filtros conforme necessário -->
+                    </div>
+                    <div class="today-tasks-list">
+                        <!-- Lista de tarefas para hoje aqui -->
+                    </div>
+                </div>
+                <div class="today-notify">
+                    <h5>Últimas notificações</h5>
+                    <div class="today-notify-list"></div>
+                    <!-- Lista das últimas notificações -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
