@@ -25,23 +25,48 @@ submitBtn.addEventListener('click', async function(event) {
         const rootRef = ref(database);
         const snapshot = await get(rootRef);
 
+        if (!snapshot.exists()) {
+            throw new Error('Dados não encontrados no banco de dados.');
+        }
+
         let userEmail = null;
-        snapshot.forEach(cnpjSnapshot => {
-            const usersRef = child(cnpjSnapshot.ref, 'usuarios');
-            cnpjSnapshot.forEach(userSnapshot => {
-                const userData = userSnapshot.val();
-                if (userData.usuario === username) {
-                    userEmail = userData.email;
-                    return true; // Encerra o loop se o usuário for encontrado
+        let userUID = null;
+        let codigoEmpresa = null;
+
+        // Percorre cada nó de empresa (CNPJ)
+        const data = snapshot.val();
+        console.log('Dados do banco de dados:', data);
+
+        for (const cnpj in data) {
+            console.log('Processando CNPJ:', cnpj);
+            const usersRef = child(rootRef, `${cnpj}/usuarios`);
+            const usersSnapshot = await get(usersRef);
+
+            if (usersSnapshot.exists()) {
+                console.log('Usuários encontrados para CNPJ:', cnpj);
+                const usersData = usersSnapshot.val();
+
+                // Percorre cada usuário dentro do nó 'usuarios'
+                for (const uid in usersData) {
+                    const userData = usersData[uid];
+                    console.log('Dados do usuário:', userData);
+                    if (userData.usuario === username && userData.senha === password) {
+                        userEmail = userData.email;
+                        userUID = uid; // Pega o UID do usuário
+                        codigoEmpresa = cnpj; // Pega o código da empresa
+                        console.log('Usuário encontrado:', userData);
+                        break; // Encerra o loop interno se o usuário for encontrado
+                    }
                 }
-            });
-            if (userEmail) {
-                return true; // Encerra o loop externo se o usuário for encontrado
+
+                if (userEmail) {
+                    break; // Encerra o loop externo se o usuário for encontrado
+                }
             }
-        });
+        }
 
         if (!userEmail) {
-            throw new Error('Usuário não encontrado.');
+            throw new Error('Usuário não encontrado ou senha incorreta.');
         }
 
         // Tenta autenticar o usuário
@@ -54,6 +79,10 @@ submitBtn.addEventListener('click', async function(event) {
             messageField.style.color = 'rgb(236, 118, 118)'; // Cor para mensagem de erro
             return;
         }
+
+        // Armazena o UID e o código da empresa no localStorage para uso futuro
+        localStorage.setItem('userUID', userUID);
+        localStorage.setItem('codigoEmpresa', codigoEmpresa);
 
         // Redireciona para a página principal ou realiza outra ação de sucesso
         messageField.textContent = 'Login bem-sucedido!';
