@@ -14,14 +14,29 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/f
 const profilePicElement = document.querySelector(".dp");
 const logoutButton = document.querySelector(".logout");
 
-// Função para redirecionar para a página de login
-function redirectToLogin() {
-  window.location.href = "login.html";
+// Função para redirecionar
+function redirectTo(url) {
+  window.location.href = url;
+}
+
+// Função para redirecionar e exibir a seção
+function redirectToSection(sectionId) {
+  document.querySelectorAll(".main > div").forEach((section) => {
+    section.style.display = section.id === sectionId ? "block" : "none";
+  });
+
+  document
+    .querySelectorAll(".nav-option")
+    .forEach((opt) => opt.classList.remove("active"));
+  const navOption = document.querySelector(`.nav-option.${sectionId}`);
+  if (navOption) navOption.classList.add("active");
 }
 
 // Função para definir a imagem de perfil
 async function setProfilePicture(url) {
-  profilePicElement.style.backgroundImage = `url(${url})`;
+  if (profilePicElement) {
+    profilePicElement.style.backgroundImage = `url(${url})`;
+  }
 }
 
 // Função para carregar a foto de perfil do usuário
@@ -33,71 +48,66 @@ async function loadProfilePicture(codigoEmpresa, uid) {
   const snapshot = await get(userRef);
 
   if (snapshot.exists()) {
-    const { foto: fotoData } = snapshot.val();
+    const fotoData = snapshot.val().foto;
     const defaultPicURL = "img/default_profile_pic.png";
     let profilePicURL = defaultPicURL;
 
     if (fotoData) {
       const fotoPath = `${codigoEmpresa}/fotos_perfil/${uid}/${fotoData}`;
       const fotoRef = storageRef(storage, fotoPath);
-
       try {
         profilePicURL = await getDownloadURL(fotoRef);
       } catch {
-        profilePicURL = defaultPicURL;
+        // Use default picture if an error occurs
       }
     }
 
     setProfilePicture(profilePicURL);
   } else {
-    redirectToLogin();
+    redirectTo("login.html");
   }
 }
 
 // Função para verificar autenticação e carregar a foto do perfil
-async function verifyUserAndLoadProfilePicture() {
+function verifyUserAndLoadProfilePicture() {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const uid = user.uid;
       const codigoEmpresa = localStorage.getItem("codigoEmpresa");
 
-      if (!codigoEmpresa) {
-        redirectToLogin();
-      } else {
+      if (codigoEmpresa) {
         await loadProfilePicture(codigoEmpresa, uid);
+      } else {
+        redirectTo("login.html");
       }
     } else {
-      redirectToLogin();
+      redirectTo("login.html");
     }
   });
 }
 
 // Função para realizar o logout
 function logout() {
-  localStorage.removeItem("codigoEmpresa");
-  localStorage.removeItem("outroDadoQueDesejaRemover");
-  redirectToLogin();
+  localStorage.clear(); // Limpa todos os dados do localStorage
+  redirectTo("login.html");
 }
 
 // Inicializa a verificação do usuário e o carregamento da foto do perfil
 verifyUserAndLoadProfilePicture();
 
-// Adiciona evento de clique ao botão de logout
-logoutButton.addEventListener("click", logout);
+// Adiciona eventos
+if (profilePicElement) {
+  profilePicElement.addEventListener("click", () =>
+    redirectToSection("profile")
+  );
+}
 
-// Adiciona eventos de clique para a navegação
+if (logoutButton) {
+  logoutButton.addEventListener("click", logout);
+}
+
 document.querySelectorAll(".nav-option").forEach((option) => {
   option.addEventListener("click", function () {
-    document
-      .querySelectorAll(".nav-option")
-      .forEach((opt) => opt.classList.remove("active"));
-    this.classList.add("active");
-
-    document
-      .querySelectorAll(".main > div")
-      .forEach((section) => (section.style.display = "none"));
-
-    const targetId = this.classList[1];
-    document.getElementById(targetId).style.display = "block";
+    redirectToSection(this.classList[1]);
   });
 });
