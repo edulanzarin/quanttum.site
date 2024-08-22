@@ -1,46 +1,139 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quanttum</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
-    <div id="container">
-        <div class="sidebar">
-            <div class="sidebar-content">
-                <div class="sidebar-items">
-                    <a href="#home" class="active"><i class="fas fa-home"></i></a>
-                    <a href="#tasks"><i class="fas fa-tasks"></i></a>
-                    <a href="#contacts"><i class="fas fa-address-book"></i></a>
-                </div>
-                <a href="#profile"><i class="fas fa-user"></i></a>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logosec">
+            <div class="logo">
+                <img src="img/icon.png" alt="Ícone" height="50px">
+            </div>
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
+                class="icn menuicn" id="menuicn" alt="menu-icon">
+        </div>
+
+        <div class="message">
+            <div class="circle"></div>
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
+            <div class="dp">
             </div>
         </div>
-        <div class="main-content">
-            <!-- Conteúdo principal vai aqui -->
-            <div id="home" class="home">
-                <div class="today-tasks">
-                    <h3>Tarefas para hoje</h3>
-                    <div class="filters">
-                        <a href="#" class="filter active" data-filter="all">Todos</a>
-                        <a href="#" class="filter" data-filter="completed">Concluídos</a>
-                        <a href="#" class="filter" data-filter="pending">Pendentes</a>
-                        <!-- Adicione mais filtros conforme necessário -->
+    </header>
+
+    <div class="main-container">
+        <div class="navcontainer">
+            <nav class="nav">
+                <div class="nav-upper-options">
+                    <div class="nav-option option1">
+                        <i class="fa-solid fa-house"></i>
                     </div>
-                    <div class="today-tasks-list">
-                        <!-- Lista de tarefas para hoje aqui -->
+
+                    <div class="option2 nav-option">
+                        <i class="fa-solid fa-list-check"></i>
+                    </div>
+
+                    <div class="nav-option option3">
+                        <i class="fa-solid fa-comment"></i>
+                    </div>
+
+                    <div class="nav-option option4">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+
+                    <div class="nav-option option5">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div class="nav-option option6">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+
+                    <div class="nav-option logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
                     </div>
                 </div>
-                <div class="today-notify">
-                    <h5>Últimas notificações</h5>
-                    <div class="today-notify-list"></div>
-                    <!-- Lista das últimas notificações -->
+            </nav>
+        </div>
+
+        <div class="main">
+
+            <div class="box-container">
+
+                <div class="box box-total-tarefas">
+                    <div class="text">
+                        <h2 class="topic-heading"></h2>
+                        <h2 class="topic">Tarefas</h2>
+                    </div>
+
+                    <i class="fa-solid fa-thumbtack" style="color: #ffffff;"></i>
+                </div>
+
+                <div class="box box-tarefas-hoje">
+                    <div class="text">
+                        <h2 class="topic-heading"></h2>
+                        <h2 class="topic">Para hoje</h2>
+                    </div>
+
+                    <i class="fa-solid fa-calendar-day" style="color: #ffffff;"></i>
+                </div>
+
+                <div class="box box-tarefas-concluidas">
+                    <div class="text">
+                        <h2 class="topic-heading"></h2>
+                        <h2 class="topic">Concluídas</h2>
+                    </div>
+
+                    <i class="fa-solid fa-thumbs-up" style="color: #ffffff;"></i>
+                </div>
+
+                <div class="box box-tarefas-atrasadas">
+                    <div class="text">
+                        <h2 class="topic-heading"></h2>
+                        <h2 class="topic">Atrasadas</h2>
+                    </div>
+
+                    <i class="fa-solid fa-thumbs-down" style="color: #ffffff;"></i>
                 </div>
             </div>
+
+            <div class="report-container">
+                <div class="report-header">
+                    <h1 class="recent-Articles">Atualizações Recentes</h1>
+                    <button class="view">Ver Tudo</button>
+                </div>
+            
+                <div class="report-body">
+                    <div class="report-topic-heading">
+                        <div class="grid-item">Tarefa</div>
+                        <div class="grid-item">Ação</div>
+                        <div class="grid-item">Data</div>
+                        <div class="grid-item">Status</div>
+                    </div>
+            
+                    <div class="items">
+                        <div class="item1 grid-container">
+                            <div class="grid-item">Digitação dsadadasdasdadaddsadasdasd</div>
+                            <div class="grid-item">2.9k</div>
+                            <div class="grid-item">210</div>
+                            <div class="grid-item label-tag">Published</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-    <script src="js/script.js"></script>
+
 </body>
+
 </html>

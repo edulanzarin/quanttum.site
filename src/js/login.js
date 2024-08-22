@@ -1,6 +1,6 @@
 import { auth, database } from './firebase.js';
 import { signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js';
-import { ref, get } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+import { ref, get, child } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
 
 // Seleciona os elementos do DOM
 const submitBtn = document.querySelector('.submit');
@@ -22,15 +22,21 @@ submitBtn.addEventListener('click', async function(event) {
     }
 
     try {
-        // Obtém o e-mail associado ao nome de usuário
-        const userRef = ref(database, 'usuarios'); // Ajuste o caminho conforme sua estrutura
-        const snapshot = await get(userRef);
-        let userEmail = null;
+        const rootRef = ref(database);
+        const snapshot = await get(rootRef);
 
-        snapshot.forEach(childSnapshot => {
-            const userData = childSnapshot.val();
-            if (userData.usuario === username) {
-                userEmail = userData.email;
+        let userEmail = null;
+        snapshot.forEach(cnpjSnapshot => {
+            const usersRef = child(cnpjSnapshot.ref, 'usuarios');
+            cnpjSnapshot.forEach(userSnapshot => {
+                const userData = userSnapshot.val();
+                if (userData.usuario === username) {
+                    userEmail = userData.email;
+                    return true; // Encerra o loop se o usuário for encontrado
+                }
+            });
+            if (userEmail) {
+                return true; // Encerra o loop externo se o usuário for encontrado
             }
         });
 
