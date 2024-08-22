@@ -1,139 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quanttum</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
 
-<body>
-
+  <body>
     <!-- HEADER -->
     <header>
-        <div class="logosec">
-            <div class="logo">
-                <img src="img/icon.png" alt="Ícone" height="50px">
-            </div>
-            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
-                class="icn menuicn" id="menuicn" alt="menu-icon">
+      <div class="logosec">
+        <div class="logo">
+          <img src="img/icon.png" alt="Ícone" height="50px" />
         </div>
+      </div>
 
-        <div class="message">
-            <div class="circle"></div>
-            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
-            <div class="dp">
-            </div>
-        </div>
+      <div class="message">
+        <div class="circle"></div>
+        <img
+          src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png"
+          class="icn"
+          alt=""
+        />
+        <div class="dp"></div>
+      </div>
     </header>
 
     <div class="main-container">
-        <div class="navcontainer">
-            <nav class="nav">
-                <div class="nav-upper-options">
-                    <div class="nav-option option1">
-                        <i class="fa-solid fa-house"></i>
-                    </div>
-
-                    <div class="option2 nav-option">
-                        <i class="fa-solid fa-list-check"></i>
-                    </div>
-
-                    <div class="nav-option option3">
-                        <i class="fa-solid fa-comment"></i>
-                    </div>
-
-                    <div class="nav-option option4">
-                        <i class="fa-solid fa-building-columns"></i>
-                    </div>
-
-                    <div class="nav-option option5">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-
-                    <div class="nav-option option6">
-                        <i class="fa-solid fa-gear"></i>
-                    </div>
-
-                    <div class="nav-option logout">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                    </div>
-                </div>
-            </nav>
-        </div>
-
-        <div class="main">
-
-            <div class="box-container">
-
-                <div class="box box-total-tarefas">
-                    <div class="text">
-                        <h2 class="topic-heading"></h2>
-                        <h2 class="topic">Tarefas</h2>
-                    </div>
-
-                    <i class="fa-solid fa-thumbtack" style="color: #ffffff;"></i>
-                </div>
-
-                <div class="box box-tarefas-hoje">
-                    <div class="text">
-                        <h2 class="topic-heading"></h2>
-                        <h2 class="topic">Para hoje</h2>
-                    </div>
-
-                    <i class="fa-solid fa-calendar-day" style="color: #ffffff;"></i>
-                </div>
-
-                <div class="box box-tarefas-concluidas">
-                    <div class="text">
-                        <h2 class="topic-heading"></h2>
-                        <h2 class="topic">Concluídas</h2>
-                    </div>
-
-                    <i class="fa-solid fa-thumbs-up" style="color: #ffffff;"></i>
-                </div>
-
-                <div class="box box-tarefas-atrasadas">
-                    <div class="text">
-                        <h2 class="topic-heading"></h2>
-                        <h2 class="topic">Atrasadas</h2>
-                    </div>
-
-                    <i class="fa-solid fa-thumbs-down" style="color: #ffffff;"></i>
-                </div>
+      <div class="navcontainer">
+        <nav class="nav">
+          <div class="nav-upper-options">
+            <div class="nav-option home active">
+              <i class="fa-solid fa-house"></i>
             </div>
 
-            <div class="report-container">
-                <div class="report-header">
-                    <h1 class="recent-Articles">Atualizações Recentes</h1>
-                    <button class="view">Ver Tudo</button>
-                </div>
-            
-                <div class="report-body">
-                    <div class="report-topic-heading">
-                        <div class="grid-item">Tarefa</div>
-                        <div class="grid-item">Ação</div>
-                        <div class="grid-item">Data</div>
-                        <div class="grid-item">Status</div>
-                    </div>
-            
-                    <div class="items">
-                        <div class="item1 grid-container">
-                            <div class="grid-item">Digitação dsadadasdasdadaddsadasdasd</div>
-                            <div class="grid-item">2.9k</div>
-                            <div class="grid-item">210</div>
-                            <div class="grid-item label-tag">Published</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="nav-option tasks">
+              <i class="fa-solid fa-list-check"></i>
             </div>
 
+            <div class="nav-option chats">
+              <i class="fa-solid fa-comment"></i>
+            </div>
+
+            <div class="nav-option institution">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+
+            <div class="nav-option profile">
+              <i class="fa-solid fa-user"></i>
+            </div>
+
+            <div class="nav-option settings">
+              <i class="fa-solid fa-gear"></i>
+            </div>
+
+            <div class="nav-option logout">
+              <i class="fa-solid fa-right-from-bracket"></i>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <div class="main">
+        <div id="home">
+          <div class="box-container">
+            <div class="box box-total-tarefas">
+              <div class="text">
+                <h2 class="topic-heading"></h2>
+                <h2 class="topic">Tarefas</h2>
+              </div>
+
+              <i class="fa-solid fa-thumbtack" style="color: #ffffff"></i>
+            </div>
+
+            <div class="box box-tarefas-hoje">
+              <div class="text">
+                <h2 class="topic-heading"></h2>
+                <h2 class="topic">Para hoje</h2>
+              </div>
+
+              <i class="fa-solid fa-calendar-day" style="color: #ffffff"></i>
+            </div>
+
+            <div class="box box-tarefas-concluidas">
+              <div class="text">
+                <h2 class="topic-heading"></h2>
+                <h2 class="topic">Concluídas</h2>
+              </div>
+
+              <i class="fa-solid fa-thumbs-up" style="color: #ffffff"></i>
+            </div>
+
+            <div class="box box-tarefas-atrasadas">
+              <div class="text">
+                <h2 class="topic-heading"></h2>
+                <h2 class="topic">Atrasadas</h2>
+              </div>
+
+              <i class="fa-solid fa-thumbs-down" style="color: #ffffff"></i>
+            </div>
+          </div>
+
+          <div class="report-container">
+            <div class="report-header">
+              <h1 class="recent-Articles">Atualizações Recentes</h1>
+              <button class="view">Ver Tudo</button>
+            </div>
+
+            <div class="report-body">
+              <div class="report-topic-heading">
+                <div class="grid-item">Tarefa</div>
+                <div class="grid-item">Ação</div>
+                <div class="grid-item">Data</div>
+                <div class="grid-item">Status</div>
+              </div>
+
+              <div class="items">
+                <div class="item1 grid-container">
+                  <div class="grid-item">
+                    Digitação dsadadasdasdadaddsadasdasd
+                  </div>
+                  <div class="grid-item">2.9k</div>
+                  <div class="grid-item">210</div>
+                  <div class="grid-item label-tag">Published</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        <!-- Seção Tasks -->
+        <div id="tasks" style="display: none">
+          <h2>Tasks Section</h2>
+          <p>Conteúdo de teste para a seção de tarefas.</p>
+        </div>
+
+        <!-- Seção Chats -->
+        <div id="chats" style="display: none">
+          <div class="chats-container">
+            <!-- Lista de Contatos -->
+            <div class="contacts-list">
+              <h2>Contatos</h2>
+              <div class="contact">
+                <div class="contact-img"></div>
+                <div class="contact-info">
+                  <p class="contact-name">Nome do Contato</p>
+                  <p class="contact-message">Mensagem recente</p>
+                </div>
+              </div>
+              <!-- Adicione mais contatos conforme necessário -->
+            </div>
+
+            <!-- Área de Chat -->
+            <div class="chat-area">
+              <div class="chat-header">
+                <div class="chat-header-img"></div>
+                <div class="chat-header-info">
+                  <h3>Nome do Contato</h3>
+                  <p>Última vez online</p>
+                </div>
+              </div>
+              <div class="chat-messages">
+                <!-- Mensagens do chat -->
+                <div class="message received">
+                  <p>Mensagem recebida</p>
+                </div>
+                <div class="message sent">
+                  <p>Mensagem enviada</p>
+                </div>
+                <!-- Adicione mais mensagens conforme necessário -->
+              </div>
+              <div class="chat-input">
+                <input type="text" placeholder="Digite uma mensagem..." />
+                <button type="button">Enviar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção Institution -->
+        <div id="institution" style="display: none">
+          <h2>Institution Section</h2>
+          <p>Conteúdo de teste para a seção de instituição.</p>
+        </div>
+
+        <!-- Seção Profile -->
+        <div id="profile" style="display: none">
+          <h2>Profile Section</h2>
+          <p>Conteúdo de teste para a seção de perfil.</p>
+        </div>
+
+        <!-- Seção Settings -->
+        <div id="settings" style="display: none">
+          <h2>Settings Section</h2>
+          <p>Conteúdo de teste para a seção de configurações.</p>
+        </div>
+      </div>
     </div>
 
     <script type="module" src="js/script.js"></script>
-</body>
+  </body>
 </html>
