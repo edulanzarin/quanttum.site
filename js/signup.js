@@ -24,6 +24,31 @@ const bullet = document.querySelectorAll(".step .bullet");
 
 let current = 1;
 
+const companyModal = document.getElementById("companyModal");
+const submitCompanyCode = document.getElementById("submitCompanyCode");
+const companyCodeInput = document.getElementById("companyCode");
+const closeModalBtn = document.querySelector(".close");
+
+function showModal() {
+  companyModal.style.display = "block";
+}
+
+function closeModal() {
+  companyModal.style.display = "none";
+}
+
+closeModalBtn.addEventListener("click", closeModal);
+
+submitCompanyCode.addEventListener("click", function () {
+  const companyCode = companyCodeInput.value.trim();
+  if (companyCode) {
+    localStorage.setItem("codigoEmpresa", companyCode);
+    closeModal();
+  } else {
+    alert("Por favor, insira o código da empresa.");
+  }
+});
+
 function showError(step, message) {
   const label = document.querySelector(`.field-${step} .label-${step}`);
   label.textContent = message;
@@ -48,6 +73,13 @@ function checkFields(step) {
 
   if (valid) hideError(step);
   return valid;
+}
+
+function checkCompanyCode() {
+  const companyCode = localStorage.getItem("codigoEmpresa");
+  if (!companyCode) {
+    showModal();
+  }
 }
 
 nextBtnFirst.addEventListener("click", function (event) {
@@ -86,6 +118,12 @@ nextBtnThird.addEventListener("click", function (event) {
 submitBtn.addEventListener("click", async function (event) {
   event.preventDefault();
 
+  const companyCode = localStorage.getItem("codigoEmpresa");
+  if (!companyCode) {
+    showModal();
+    return;
+  }
+
   const inputs = document.querySelectorAll(
     ".page:nth-of-type(1) input[type='text']"
   );
@@ -121,7 +159,7 @@ submitBtn.addEventListener("click", async function (event) {
       }
 
       const db = getDatabase();
-      const usuariosRef = ref(db, "usuarios/");
+      const usuariosRef = ref(db, `${companyCode}/usuarios/`);
       const snapshot = await get(usuariosRef);
       let emailExists = false;
       let usernameExists = false;
@@ -155,7 +193,7 @@ submitBtn.addEventListener("click", async function (event) {
       await sendEmailVerification(user);
 
       // Salvar informações do usuário no banco de dados
-      const userRefNew = ref(db, "usuarios/" + user.uid);
+      const userRefNew = ref(db, `${companyCode}/usuarios/` + user.uid);
       await set(userRefNew, {
         nome: nameInput,
         sobrenome: surnameInput,
@@ -208,11 +246,5 @@ prevBtnThird.addEventListener("click", function (event) {
   current -= 1;
 });
 
-prevBtnFourth.addEventListener("click", function (event) {
-  event.preventDefault();
-  slidePage.style.marginLeft = "-50%";
-  bullet[current - 2].classList.remove("active");
-  progressCheck[current - 2].classList.remove("active");
-  progressText[current - 2].classList.remove("active");
-  current -= 1;
-});
+// Chama a função para verificar o código da empresa ao carregar a página
+checkCompanyCode();
