@@ -105,7 +105,10 @@ header {
 
 .main {
   height: calc(100vh - 70px);
-  width: 100%;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow-y: scroll;
   overflow-x: hidden;
   padding: 30px 30px 30px 30px;
@@ -353,6 +356,7 @@ header {
 /* Seção de Chats */
 #chats {
   display: flex;
+  width: 100%;
   height: calc(100vh - 100px); /* Ajuste conforme necessário */
   background-color: var(--background-color1);
   overflow: hidden;
@@ -520,7 +524,7 @@ header {
 
 /* Mensagem enviada (alinhada à direita) */
 .message.sent {
-  background-color: #80b3ff; /* Cor de fundo para mensagens enviadas */
+  background-color: #9fc6ff; /* Cor de fundo para mensagens enviadas */
   align-self: flex-end; /* Alinha à direita */
   margin-left: auto; /* Espaço à esquerda para centralizar */
 }
@@ -573,3 +577,200 @@ header {
   width: 100%;
 }
 
+/* Container do perfil */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  border-radius: 12px; /* Aumentado para um visual mais moderno */
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Sombra mais pronunciada */
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box; /* Garantir que o padding não afete o tamanho total */
+}
+
+/* Imagem de perfil */
+.profile-image-wrapper {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.profile-image-wrapper:hover {
+  transform: scale(1.05);
+}
+
+#profile-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 4px solid #ddd;
+  border-radius: 50%;
+}
+
+/* Ícone de câmera sobre a imagem */
+.profile-image-wrapper::before {
+  content: "\f030";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 24px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.profile-image-wrapper:hover::before {
+  opacity: 1;
+}
+
+/* Estilo para o formulário de perfil */
+.profile-form-wrapper {
+  width: 100%;
+}
+
+/* Estilo para os ícones dentro dos campos de entrada */
+.form-group {
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.form-group input, .form-group select {
+  padding: 12px;
+  padding-left: 40px; /* Espaço para o ícone */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-group i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #888;
+  z-index: 2;
+}
+
+.form-group .select-group select {
+  padding-left: 40px; /* Espaço para o ícone */
+}
+
+/* Alinhar os selects na mesma linha */
+.select-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.select-group .form-group {
+  flex: 1;
+  min-width: 200px; /* Ajuste conforme necessário */
+}
+
+.select-group select {
+  width: 100%;
+}
+
+/* Estilo para o campo de senha */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  padding-right: 40px;
+  z-index: 1;
+}
+
+.password-wrapper button {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.eye-icon {
+  font-size: 20px;
+}
+
+/* Estilo para o botão de confirmação */
+#confirm-button {
+  background-color: #007bff; /* Cor de fundo do botão */
+  color: white; /* Cor do texto */
+  border: none; /* Remove a borda padrão */
+  border-radius: 8px; /* Borda arredondada */
+  padding: 12px 20px; /* Espaçamento interno */
+  font-size: 16px; /* Tamanho da fonte */
+  cursor: pointer; /* Cursor em forma de mão ao passar sobre o botão */
+  transition: background-color 0.3s ease; /* Transição suave para a cor de fundo */
+  width: 100%; /* O botão ocupa toda a largura disponível */
+}
+
+#confirm-button:hover {
+  background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+}
+
+.input-with-select {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-select input {
+  width: 100%;
+  padding-right: 30px; /* Espaço para o botão de seleção */
+  box-sizing: border-box;
+}
+
+.input-with-select .select-button {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  color: #000;
+}
+
+.select-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 10;
+  width: 100%;
+}
+
+.select-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: white;
+  cursor: pointer;
+  text-align: left;
+}
+
+.select-menu button:hover {
+  background: #f0f0f0;
+}

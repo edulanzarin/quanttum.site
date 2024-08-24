@@ -11,7 +11,7 @@ import {
   ref as storageRef,
   getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+import { onAuthStateChanged, updatePassword } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
 // Seletores de elementos DOM
 const profilePicElement = document.querySelector(".dp");
@@ -154,7 +154,29 @@ function loadContacts(codigoEmpresa, currentUserUid) {
 
 let codigoEmpresaGlobal;
 
-// Atualiza a função initializeUserProfile para definir a variável global
+// Seletores de elementos DOM
+const profileForm = document.getElementById("profile-form");
+const firstNameInput = document.getElementById("first-name");
+const lastNameInput = document.getElementById("last-name");
+const cargoSelect = document.getElementById("cargo");
+const setorSelect = document.getElementById("setor");
+const segmentoSelect = document.getElementById("segmento");
+const emailInput = document.getElementById("email");
+const senhaInput = document.getElementById("password");
+
+// Função para preencher o formulário com os dados do usuário
+function populateProfileForm(userData) {
+  if (userData) {
+    firstNameInput.value = userData.nome || "";
+    lastNameInput.value = userData.sobrenome || "";
+    cargoSelect.value = userData.cargo || "analista"; // Valor padrão
+    setorSelect.value = userData.setor || "contabil"; // Valor padrão
+    segmentoSelect.value = userData.segmento || "comercio"; // Valor padrão
+    emailInput.value = userData.email || ""; // Não editável
+  }
+}
+
+// Atualiza a função initializeUserProfile para preencher o formulário
 async function initializeUserProfile() {
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
@@ -168,10 +190,16 @@ async function initializeUserProfile() {
       return redirectTo("login.html");
     }
 
+    const userData = await getUserData(codigoEmpresaGlobal, uid);
+    populateProfileForm(userData); // Preenche o formulário com os dados do usuário
     await loadProfilePicture(codigoEmpresaGlobal, uid);
     await loadContacts(codigoEmpresaGlobal, uid);
   });
 }
+
+// Inicializa a verificação do usuário e o carregamento da foto do perfil
+initializeUserProfile();
+
 
 // Função para realizar o logout
 function handleLogout() {
@@ -355,3 +383,109 @@ document.getElementById('message-input').addEventListener('keydown', (event) => 
   }
 });
 
+document.getElementById('toggle-password').addEventListener('click', function() {
+  const passwordInput = document.getElementById('password');
+  const type = passwordInput.type === 'password' ? 'text' : 'password';
+  passwordInput.type = type;
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  function toggleSelectMenu(menuId) {
+    const menu = document.getElementById(menuId);
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  }
+
+  function selectValue(value, inputId) {
+    document.getElementById(inputId).value = value;
+    document.querySelector(`#${inputId}-menu`).style.display = 'none';
+  }
+
+  // Close all menus when clicking outside
+  document.addEventListener('click', function(event) {
+    if (!event.target.matches('.select-button')) {
+      document.querySelectorAll('.select-menu').forEach(menu => {
+        menu.style.display = 'none';
+      });
+    }
+  });
+
+  // Expor funções para o escopo global
+  window.toggleSelectMenu = toggleSelectMenu;
+  window.selectValue = selectValue;
+});
+
+// Função para atualizar a senha no Firebase Authentication
+async function updateUserPassword(newPassword) {
+  const user = auth.currentUser.uid;;
+  if (user) {
+    try {
+      await updatePassword(user, newPassword);
+      console.log("Senha atualizada no Firebase Authentication com sucesso.");
+    } catch (error) {
+      console.error("Erro ao atualizar senha no Firebase Authentication:", error.message);
+      throw error;  // Repassa o erro para o tratamento na chamada da função
+    }
+  } else {
+    console.error("Nenhum usuário autenticado.");
+    throw new Error("Nenhum usuário autenticado.");
+  }
+}
+
+// Função para atualizar a senha no banco de dados
+async function updateUserDatabasePassword(uid, newPassword) {
+  const codigoEmpresa = localStorage.getItem("codigoEmpresa");
+  const userRef = child(databaseRef(database), `${codigoEmpresa}/usuarios/${uid}`);
+
+  try {
+    // Atualiza a senha no banco de dados
+    await update(userRef, { senha: newPassword });
+    console.log("Senha atualizada no banco de dados com sucesso.");
+  } catch (error) {
+    console.error("Erro ao atualizar senha no banco de dados:", error.message);
+    throw error;  // Repassa o erro para o tratamento na chamada da função
+  }
+}
+
+document.getElementById('confirm-button').addEventListener('click', async () => {
+  const nome = firstNameInput.value.trim();
+  const sobrenome = lastNameInput.value.trim();
+  const cargo = cargoSelect.value;
+  const setor = setorSelect.value;
+  const segmento = segmentoSelect.value;
+  const password = senhaInput.value.trim();
+
+  const uid = auth.currentUser.uid;
+  
+  try {
+    const codigoEmpresa = localStorage.getItem("codigoEmpresa");
+    const userRef = child(databaseRef(database), `${codigoEmpresa}/usuarios/${uid}`);
+    
+    // Obtém os dados atuais do usuário
+    const snapshot = await get(userRef);
+    const userData = snapshot.exists() ? snapshot.val() : {};
+
+    // Cria um objeto com os dados atuais e atualiza apenas os campos informados
+    const updates = {
+      ...userData,
+      nome: nome || userData.nome,
+      sobrenome: sobrenome || userData.sobrenome,
+      cargo: cargo || userData.cargo,
+      setor: setor || userData.setor,
+      segmento: segmento || userData.segmento,
+    };
+
+    // Atualiza os dados no Firebase
+    await set(userRef, updates);
+
+    // Se a senha for fornecida, atualize também a senha do usuário
+    if (password) {
+      await updateUserPassword(password); // Atualiza no Firebase Authentication
+      await updateUserDatabasePassword(uid, password); // Atualiza no banco de dados
+    }
+    
+    alert("Dados atualizados com sucesso!");
+  } catch (error) {
+    console.error("Erro ao atualizar dados:", error.message);
+    alert("Erro ao atualizar dados. Tente novamente.");
+  }
+});
