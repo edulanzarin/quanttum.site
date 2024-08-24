@@ -138,12 +138,9 @@ submitBtn.addEventListener("click", async function (event) {
   const cargoSelect = document.querySelector(
     ".page:nth-of-type(2) select"
   ).value;
-  const setorSelect = document.querySelector(
-    ".page:nth-of-type(3) select"
-  ).value;
-  const segmentoSelect = document.querySelector(
-    ".page:nth-of-type(3) select"
-  ).value;
+  const selects = document.querySelectorAll(".page:nth-of-type(3) select");
+  const setorSelect = selects[0]?.value.trim();
+  const segmentoSelect = selects[1]?.value.trim();
   const usuarioInput = document
     .querySelector(".page:nth-of-type(4) input[type='text']")
     .value.trim();

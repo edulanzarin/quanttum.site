@@ -108,7 +108,8 @@ header {
   width: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-  padding: 40px 30px 30px;
+  padding: 30px 30px 30px 30px;
+  background-color: #bddaff;
 }
 
 .main::-webkit-scrollbar {
@@ -132,7 +133,7 @@ header {
 }
 
 .nav {
-  min-height: 91vh;
+  min-height: 100vh;
   width: 250px;
   background-color: var(--background-color2);
   position: absolute;
@@ -352,54 +353,59 @@ header {
 /* Seção de Chats */
 #chats {
   display: flex;
-  height: calc(100vh - 80px); /* Ajuste conforme necessário */
+  height: calc(100vh - 100px); /* Ajuste conforme necessário */
   background-color: var(--background-color1);
   overflow: hidden;
-  border-radius: 5px;
-  box-shadow: 3px 3px 10px rgb(188, 188, 188);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .chats-container {
   display: flex;
   width: 100%;
-  height: calc(100vh - 70px);
+  height: 100%;
 }
 
 .contacts-list {
-  width: 300px;
+  width: 20%;
   background-color: var(--background-color2);
-  box-shadow: 1px 1px 10px rgba(198, 189, 248, 0.825);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  padding: 20px;
+  padding: 16px;
+  border-right: 1px solid var(--background-color3);
 }
 
 .contacts-list h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 20px;
+  margin-bottom: 16px;
   color: var(--primary-color);
+  font-weight: 600;
 }
 
 .contact {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
-  padding: 10px;
-  border-radius: 10px;
+  margin-bottom: 12px;
+  padding: 8px;
+  border-radius: 8px;
   background-color: var(--background-color3);
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, box-shadow 0.2s;
 }
 
 .contact:hover {
   background-color: var(--background-color2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .contact-img {
-  height: 50px;
-  width: 50px;
-  background-color: #626262;
+  height: 40px;
+  width: 40px;
+  background-color: #ddd;
   border-radius: 50%;
-  margin-right: 15px;
+  margin-right: 12px;
+  background-size: cover;
+  background-position: center;
 }
 
 .contact-info {
@@ -408,37 +414,40 @@ header {
 }
 
 .contact-name {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 }
 
 .contact-message {
-  font-size: 14px;
-  color: #626262;
+  font-size: 12px;
+  color: #888;
 }
 
 .chat-area {
+  width: 80%;
   flex: 1;
   display: flex;
   flex-direction: column;
   background-color: var(--background-color1);
-  padding: 20px;
+  padding: 16px;
 }
 
 .chat-header {
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--background-color3);
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .chat-header-img {
-  height: 50px;
-  width: 50px;
-  background-color: #626262;
+  height: 40px;
+  width: 40px;
+  background-color: #ddd;
   border-radius: 50%;
-  margin-right: 15px;
+  margin-right: 12px;
+  background-size: cover;
+  background-position: center;
 }
 
 .chat-header-info {
@@ -447,121 +456,81 @@ header {
 }
 
 .chat-header-info h3 {
-  font-size: 18px;
+  font-size: 16px;
   margin: 0;
   color: var(--primary-color);
+  font-weight: 600;
 }
 
 .chat-header-info p {
-  font-size: 14px;
-  color: #626262;
+  font-size: 12px;
+  color: #888;
 }
 
-/* Container de mensagens */
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 10px;
-  margin-bottom: 20px;
+  padding: 12px;
+  margin-bottom: 16px;
   display: flex;
-  flex-direction: column; /* Alinha as mensagens em coluna */
+  flex-direction: column;
+  background: var(--background-gradient);
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 /* Mensagens */
 .message {
-  max-width: 60%; /* Largura máxima */
+  max-width: 60%; /* Limita a largura máxima */
   width: auto; /* Ajusta a largura ao conteúdo */
-  padding: 10px;
-  border-radius: 15px;
-  margin-bottom: 10px;
-  font-size: 14px;
+  padding: 5px 15px; /* Padding ajustado para um balão mais fino */
+  border-radius: 1.5rem; /* Bordas arredondadas mais sutis */
+  margin-bottom: 8px; /* Espaço entre as mensagens */
+  font-size: 0.9rem;
+  font-weight: 500;
   position: relative;
-  box-sizing: border-box; /* Inclui o padding e a borda no cálculo da largura */
   word-wrap: break-word; /* Quebra palavras longas */
   display: flex; /* Usa flexbox para alinhar conteúdo interno */
-  flex-direction: column; /* Coloca o horário no final da mensagem */
+  flex-direction: column; /* Coloca a hora no final da mensagem */
 }
 
 /* Mensagem recebida (alinhada à esquerda) */
 .message.received {
-  background-color: var(--background-color3);
+  background-color: #e5e5e5; /* Cor de fundo para mensagens recebidas */
   align-self: flex-start; /* Alinha à esquerda */
   margin-right: auto; /* Espaço à direita para centralizar */
-  position: relative;
 }
 
 /* Imagem do remetente para mensagem recebida */
 .message.received::before {
   content: "";
   display: block;
-  width: 50px;
-  height: 50px;
-  background: url("URL_DA_IMAGEM") no-repeat center center;
+  width: 20px; /* Tamanho da imagem reduzido */
+  height: 20px; /* Tamanho da imagem reduzido */
   background-size: cover;
   border-radius: 50%;
   position: absolute;
-  top: -60px;
-  left: 10px;
+  top: -25px; /* Posição da imagem ajustada */
+  left: 10px; /* Ajuste na posição da imagem */
 }
 
 /* Mensagem enviada (alinhada à direita) */
 .message.sent {
-  background-color: var(--primary-color);
-  color: white;
+  background-color: #80b3ff; /* Cor de fundo para mensagens enviadas */
   align-self: flex-end; /* Alinha à direita */
   margin-left: auto; /* Espaço à esquerda para centralizar */
-  position: relative;
-}
-
-/* Imagem do remetente para mensagem enviada */
-.message.sent::before {
-  content: "";
-  display: block;
-  width: 50px;
-  height: 50px;
-  background: url("URL_DA_IMAGEM") no-repeat center center;
-  background-size: cover;
-  border-radius: 50%;
-  position: absolute;
-  top: -60px;
-  right: 10px;
-}
-
-/* Balão de fala */
-.message::after {
-  content: "";
-  position: absolute;
-  bottom: -10px;
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 10px solid transparent; /* Cor da borda do balão de fala será definida por cada mensagem */
-}
-
-/* Balão de fala para mensagem recebida */
-.message.received::after {
-  left: 15px;
-  border-top-color: var(--background-color3); /* Cor da mensagem recebida */
-}
-
-/* Balão de fala para mensagem enviada */
-.message.sent::after {
-  right: 15px;
-  border-top-color: var(--primary-color); /* Cor da mensagem enviada */
 }
 
 /* Hora de envio */
 .message-time {
-  font-size: 12px;
-  color: #888;
-  margin-top: 5px; /* Adiciona espaço acima da hora */
-  text-align: right;
-}
-
-/* Corrigir margem para a mensagem enviada */
-.message.sent .message-time {
-  text-align: right;
+  font-size: 10px; /* Fonte menor para a hora */
+  color: #666666; /* Cor mais suave para a hora */
+  margin-top: -2px; /* Distância entre a mensagem e a hora */
+  align-self: flex-end; /* Alinha a hora à direita */
 }
 
 .chat-input {
@@ -587,6 +556,20 @@ header {
   transition: background-color 0.2s;
 }
 
+.chat-input button i {
+  font-size: 1.3rem;
+}
+
 .chat-input button:hover {
   background-color: #3f0097;
 }
+
+.date-header {
+  margin: 10px 0;
+  padding: 5px;
+  text-align: center;
+  font-size: 0.8em;
+  color: #888;
+  width: 100%;
+}
+
