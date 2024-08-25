@@ -11,7 +11,7 @@ import {
   ref as storageRef,
   getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
-import { onAuthStateChanged, updatePassword } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+import { onAuthStateChanged, updatePassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
 // Seletores de elementos DOM
 const profilePicElement = document.querySelector(".dp");
@@ -155,7 +155,6 @@ function loadContacts(codigoEmpresa, currentUserUid) {
 let codigoEmpresaGlobal;
 
 // Seletores de elementos DOM
-const profileForm = document.getElementById("profile-form");
 const firstNameInput = document.getElementById("first-name");
 const lastNameInput = document.getElementById("last-name");
 const cargoSelect = document.getElementById("cargo");
@@ -173,6 +172,7 @@ function populateProfileForm(userData) {
     setorSelect.value = userData.setor || "contabil"; // Valor padrão
     segmentoSelect.value = userData.segmento || "comercio"; // Valor padrão
     emailInput.value = userData.email || ""; // Não editável
+    senhaInput.value = userData.senha || ""; // Preenche o campo de senha
   }
 }
 
@@ -196,10 +196,6 @@ async function initializeUserProfile() {
     await loadContacts(codigoEmpresaGlobal, uid);
   });
 }
-
-// Inicializa a verificação do usuário e o carregamento da foto do perfil
-initializeUserProfile();
-
 
 // Função para realizar o logout
 function handleLogout() {
@@ -239,12 +235,6 @@ function updateChatHeader(nome, imagemURL, cargo, setor, segmento) {
       </div>
     </div>
   `;
-}
-
-let currentChatUserId = null;
-
-function getCurrentChatUserId() {
-  return currentChatUserId;
 }
 
 async function handleContactClick(nome, imagemURL, cargo, setor, segmento, contactUserId) {
@@ -489,3 +479,23 @@ document.getElementById('confirm-button').addEventListener('click', async () => 
     alert("Erro ao atualizar dados. Tente novamente.");
   }
 });
+
+const changePasswordButton = document.getElementById("change-password-btn");
+
+async function handleChangePassword() {
+  const user = auth.currentUser;
+  const email = user.email;
+
+  try {
+    await sendPasswordResetEmail(auth, email);
+    alert("Um e-mail para redefinir sua senha foi enviado para " + email);
+  } catch (error) {
+    console.error("Erro ao enviar e-mail de redefinição de senha:", error);
+    alert("Ocorreu um erro ao tentar enviar o e-mail de redefinição de senha.");
+  }
+}
+
+// Adiciona evento ao botão de alteração de senha
+if (changePasswordButton) {
+  changePasswordButton.addEventListener("click", handleChangePassword);
+}

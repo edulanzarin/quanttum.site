@@ -684,23 +684,41 @@ header {
 
 /* Estilo para o campo de senha */
 .password-wrapper {
-  position: relative;
   display: flex;
   align-items: center;
+  gap: 10px; /* Espaço entre o input e o botão de alterar senha */
+  position: relative; /* Necessário para posicionar o ícone de olho dentro do input */
 }
 
 .password-wrapper input {
-  padding-right: 40px;
-  z-index: 1;
+  flex: 1; /* Permite que o campo de entrada ocupe o espaço disponível */
+  padding-right: 40px; /* Espaço para o ícone de mostrar/esconder a senha */
+  box-sizing: border-box;
+  min-width: 200px; /* Ajuste conforme necessário */
 }
 
-.password-wrapper button {
+.password-wrapper button#toggle-password {
   position: absolute;
-  right: 10px;
+  right: 160px;
   background: none;
   border: none;
   cursor: pointer;
   z-index: 2;
+}
+
+.password-wrapper button#change-password-btn {
+  background-color: #007bff; /* Cor de fundo do botão */
+  color: white; /* Cor do texto */
+  border: none; /* Remove a borda padrão */
+  border-radius: 8px; /* Borda arredondada */
+  padding: 10px 15px; /* Espaçamento interno */
+  font-size: 16px; /* Tamanho da fonte */
+  cursor: pointer; /* Cursor em forma de mão ao passar sobre o botão */
+  transition: background-color 0.3s ease; /* Transição suave para a cor de fundo */
+}
+
+.password-wrapper button#change-password-btn:hover {
+  background-color: #0056b3; /* Cor de fundo ao passar o mouse */
 }
 
 .eye-icon {
