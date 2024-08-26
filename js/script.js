@@ -3,12 +3,12 @@ import {
   ref as databaseRef,
   get,
   child,
-  push,
   set,
   onValue
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
 import {
   ref as storageRef,
+  uploadBytes,
   getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js";
 import { onAuthStateChanged, updatePassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
@@ -164,7 +164,7 @@ const emailInput = document.getElementById("email");
 const senhaInput = document.getElementById("password");
 
 // Função para preencher o formulário com os dados do usuário
-function populateProfileForm(userData) {
+async function populateProfileForm(userData) {
   if (userData) {
     firstNameInput.value = userData.nome || "";
     lastNameInput.value = userData.sobrenome || "";
@@ -173,8 +173,34 @@ function populateProfileForm(userData) {
     segmentoSelect.value = userData.segmento || "comercio"; // Valor padrão
     emailInput.value = userData.email || ""; // Não editável
     senhaInput.value = userData.senha || ""; // Preenche o campo de senha
+
+    // Se o usuário tiver uma foto associada, carregue-a
+    if (userData.foto) {
+      try {
+        const uid = auth.currentUser.uid;
+        const codigoEmpresa = localStorage.getItem("codigoEmpresa");
+        const storagePath = `${codigoEmpresa}/fotos_perfil/${uid}/${userData.foto}`;
+        const fotoRef = storageRef(storage, storagePath);
+
+        // Obter a URL de download da foto
+        const downloadURL = await getDownloadURL(fotoRef);
+
+        // Atualizar a imagem de perfil na interface
+        profileImageElement.src = downloadURL;
+
+      } catch (error) {
+        console.error("Erro ao carregar a foto de perfil:", error);
+        // Em caso de erro, manter a imagem padrão
+        profileImageElement.src = "img/default_profile_pic.png";
+      }
+    } else {
+      // Caso não haja foto, use a imagem padrão
+      profileImageElement.src = "img/default_profile_pic.png";
+    }
   }
 }
+
+let currentChatUserId;
 
 // Atualiza a função initializeUserProfile para preencher o formulário
 async function initializeUserProfile() {
@@ -499,3 +525,53 @@ async function handleChangePassword() {
 if (changePasswordButton) {
   changePasswordButton.addEventListener("click", handleChangePassword);
 }
+
+// Referência aos elementos do DOM
+const profileImageElement = document.getElementById("profile-image");
+const fileInputElement = document.getElementById("file-input");
+
+// Evento para abrir o file dialog ao clicar na imagem de perfil
+profileImageElement.addEventListener("click", () => {
+  fileInputElement.click();
+});
+
+// Evento para tratar o upload da nova imagem
+fileInputElement.addEventListener("change", async (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    try {
+      // Obter o uid e o código da empresa
+      const uid = auth.currentUser.uid;
+      const codigoEmpresa = localStorage.getItem("codigoEmpresa");
+
+      if (!codigoEmpresa) {
+        alert("Código da empresa não encontrado.");
+        return;
+      }
+
+      // Caminho para o armazenamento da foto de perfil no Firebase Storage
+      const storagePath = `${codigoEmpresa}/fotos_perfil/${uid}/${file.name}`;
+      const fotoRef = storageRef(storage, storagePath);
+
+      // Upload do arquivo
+      await uploadBytes(fotoRef, file);
+
+      // Obter a URL de download da nova imagem
+      const downloadURL = await getDownloadURL(fotoRef);
+
+      // Atualizar o atributo 'foto' no banco de dados do usuário
+      const userRef = databaseRef(database, `${codigoEmpresa}/usuarios/${uid}`);
+      await set(child(userRef, "foto"), file.name);
+
+      // Atualizar a imagem de perfil na interface
+      profileImageElement.src = downloadURL;
+
+      updateProfilePicture(downloadURL);
+
+      alert("Foto de perfil atualizada com sucesso!");
+    } catch (error) {
+      console.error("Erro ao fazer upload da imagem:", error);
+      alert("Erro ao atualizar a foto de perfil. Tente novamente.");
+    }
+  }
+});

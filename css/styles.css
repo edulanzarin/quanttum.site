@@ -111,7 +111,7 @@ header {
   justify-content: center;
   overflow-y: scroll;
   overflow-x: hidden;
-  padding: 30px 30px 30px 30px;
+  padding: 70px 30px 30px 30px;
   background-color: #bddaff;
 }
 
@@ -353,6 +353,13 @@ header {
   padding: 5px 0;
 }
 
+#home {
+  width: 100%;
+  height: calc(100vh - 100px); /* Ajuste conforme necessário */
+  overflow: hidden;
+  padding: 20px;
+}
+
 /* Seção de Chats */
 #chats {
   display: flex;
@@ -524,7 +531,7 @@ header {
 
 /* Mensagem enviada (alinhada à direita) */
 .message.sent {
-  background-color: #9fc6ff; /* Cor de fundo para mensagens enviadas */
+  background-color: #b5e1ff; /* Cor de fundo para mensagens enviadas */
   align-self: flex-end; /* Alinha à direita */
   margin-left: auto; /* Espaço à esquerda para centralizar */
 }
